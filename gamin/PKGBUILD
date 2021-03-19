@@ -31,8 +31,7 @@ build() {
   cd "$srcdir/$pkgname-$pkgver"
   ./configure \
     --prefix=/usr \
-    --libexecdir=/usr/lib/gamin \
-    --disable-server \
+    --libexecdir=/usr/libexec \
     --without-python
   make
   make DESTDIR="$srcdir/dest" install
@@ -46,6 +45,9 @@ check() {
 package_gamin() {
   mkdir -p $pkgdir/usr/bin
   cp -rf $srcdir/dest/usr/bin $pkgdir/usr/
+
+  mkdir -p $pkgdir/usr/libexec
+  cp -rf $srcdir/dest/usr/libexec $pkgdir/usr/
 }
 
 package_gamin-devel() {
