@@ -1,0 +1,31 @@
+--- gamin-0.1.10/server/gam_channel.c.old	2021-03-19 20:44:55.680415500 +0000
++++ gamin-0.1.10/server/gam_channel.c	2021-03-19 20:50:22.822424200 +0000
+@@ -526,27 +526,8 @@
+     if (ret < 0)
+ 	return(TRUE);
+     
+-    if (st.st_uid != getuid()) {
+-	gam_error(DEBUG_INFO,
+-		  "Socket %s has different owner\n",
+-		  path);
+-	goto cleanup;
+-    }
+-#ifdef S_ISSOCK
+-    if (!S_ISSOCK (st.st_mode)) {
+-	gam_error(DEBUG_INFO, "Socket path %s is not a socket\n",
+-		  path);
+-	goto cleanup;
+-    }
+-#endif
+     /*
+-     * Looks good though binding may fail due to an existing server
+-     */
+-    return(TRUE);
+-
+-cleanup:
+-    /*
+-     * the existing file at the socket location seems strange, try to remove it
++     * always try to remove the existing file, as it might be lingering without an attached server
+      */
+     ret = unlink(path);
+     if (ret < 0) {

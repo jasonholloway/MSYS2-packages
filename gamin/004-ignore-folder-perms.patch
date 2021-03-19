@@ -1,0 +1,68 @@
+--- gamin-0.1.10/server/gam_channel.c.orig	2007-07-04 14:36:49.000000000 +0100
++++ gamin-0.1.10/server/gam_channel.c	2021-03-08 19:58:11.002223300 +0000
+@@ -453,18 +453,6 @@
+ 		          dir);
+ 	        break;
+ 	    }
+-	    if (st.st_mode & (S_IRWXG|S_IRWXO)) {
+-		gam_error(DEBUG_INFO,
+-		          "Socket directory %s has wrong permissions\n",
+-		          dir);
+-	        break;
+-	    }
+-	    if (((st.st_mode & (S_IRWXU)) != S_IRWXU)) {
+-		gam_error(DEBUG_INFO,
+-		          "Socket directory %s has wrong permissions\n",
+-		          dir);
+-	        break;
+-	    }
+ 	    /*
+ 	     * all checks on existing dir seems okay
+ 	     */
+@@ -551,12 +540,6 @@
+ 	goto cleanup;
+     }
+ #endif
+-    if (st.st_mode & (S_IRWXG|S_IRWXO)) {
+-	gam_error(DEBUG_INFO,
+-		  "Socket %s has wrong permissions\n",
+-		  path);
+-	goto cleanup;
+-    }
+     /*
+      * Looks good though binding may fail due to an existing server
+      */
+--- gamin-0.1.10/libgamin/gam_api.c.orig	2007-07-04 14:36:48.000000000 +0100
++++ gamin-0.1.10/libgamin/gam_api.c	2021-03-08 19:57:42.782177000 +0000
+@@ -235,18 +235,6 @@
+ 		  dir);
+ 	goto unsafe;
+     }
+-    if (st.st_mode & (S_IRWXG|S_IRWXO)) {
+-	gam_error(DEBUG_INFO,
+-		  "Socket directory %s has wrong permissions\n",
+-		  dir);
+-	goto unsafe;
+-    }
+-    if (((st.st_mode & (S_IRWXU)) != S_IRWXU)) {
+-	gam_error(DEBUG_INFO,
+-		  "Socket directory %s has wrong permissions\n",
+-		  dir);
+-	goto unsafe;
+-    }
+ 
+     /*
+      * all checks on existing dir seems okay
+@@ -314,12 +302,6 @@
+ 	goto cleanup;
+     }
+ #endif
+-    if (st.st_mode & (S_IRWXG|S_IRWXO)) {
+-	gam_error(DEBUG_INFO,
+-		  "Socket %s has wrong permissions\n",
+-		  path);
+-	goto cleanup;
+-    }
+     /*
+      * Looks good though binding may fail due to an existing server
+      */

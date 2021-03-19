@@ -3,7 +3,7 @@
 pkgbase=gamin
 pkgname=("gamin" "gamin-devel")
 pkgver=0.1.10
-pkgrel=4
+pkgrel=5
 pkgdesc="File and directory monitoring system defined to be a subset of the FAM (File Alteration Monitor)"
 arch=('i686' 'x86_64')
 url="https://people.gnome.org/~veillard/gamin/"
@@ -13,17 +13,23 @@ makedepends=('gcc' 'gtk-doc' 'glib2-devel' 'pcre-devel')
 source=("https://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.bz2"
         001-no-undefined.patch
         002-fix-deprecated-const.patch
-        003-python-link.patch)
+        003-python-link.patch
+        004-ignore-folder-perms.patch
+        005-always-remove-existing-socket-file.patch)
 sha256sums=('a59948b20ce2f14136c013f155abb8c8d51db2ea167c063ff33461e453fec10a'
             'ab3d63b9ec568fbfe597216135b1e210b92299da0d2556be70fa7c01b3600e06'
             '33af6c9a94b459506fc48892c169d89cb4ad7c68e160f0c4bc74475f19ce5a2f'
-            '1f11906d4d4dc5159ca647167899ccfb5efec4648ea77b6e96397142293bbab7')
+            '1f11906d4d4dc5159ca647167899ccfb5efec4648ea77b6e96397142293bbab7'
+            '6cfd97ea5297f297d2f19dce26c255f7bea5fca72ab4c60e06dfe6ede1df3e1d'
+            'c95c3725d8b437e8b0876613af9e2d504555914999b1a80ab6de863869a67676')
 
 prepare() {
   cd "$srcdir/$pkgname-$pkgver"
   patch -p1 -i ${srcdir}/001-no-undefined.patch
   patch -p1 -i ${srcdir}/002-fix-deprecated-const.patch
   patch -p1 -i ${srcdir}/003-python-link.patch
+  patch -p1 -i ${srcdir}/004-ignore-folder-perms.patch
+  patch -p1 -i ${srcdir}/005-always-remove-existing-socket-file.patch
   autoreconf -ivf
 }
 
